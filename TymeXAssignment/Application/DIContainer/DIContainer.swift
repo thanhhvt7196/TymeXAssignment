@@ -21,7 +21,7 @@ extension DIContainer {
         }
     }
     
-    static func get<T>(key: String?) -> T {
+    static func get<T>(key: String? = nil) -> T {
         guard let t = container.resolve(T.self, name: key) else {
             fatalError("Could not resolve dependency for key: \(key ?? "unknown")")
         }
