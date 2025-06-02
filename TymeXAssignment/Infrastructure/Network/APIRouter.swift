@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 // I don't wanna add Moya as dependency, so I make my own!
-enum APINewsRouter: URLRequestConvertible {
+enum APIRouter: URLRequestConvertible {
     case getGithubUsersList(itemPerPage: Int, since: Int)
     case getUserDetails(username: String)
     
