@@ -1,0 +1,19 @@
+strings:
+  inputs:
+    - TymeXAssignment/Resources/Localization/en.lproj/Localizable.strings
+  outputs:
+    - templateName: structured-swift5
+      output: TymeXAssignment/Resources/Generated/Strings.swift
+fonts:
+  inputs:
+    - TymeXAssignment/Resources/Fonts
+  outputs:
+    - templateName: swift5
+      output: TymeXAssignment/Resources/Generated/Fonts.swift
+xcassets:
+  - inputs:
+      - TymeXAssignment/Resources/Assets.xcassets
+      - TymeXAssignment/Resources/Colors.xcassets
+    outputs:
+      - templateName: swift5
+        output: TymeXAssignment/Resources/Generated/Assets.swift
