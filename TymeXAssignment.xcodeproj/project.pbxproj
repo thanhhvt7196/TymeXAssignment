@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C368CB92DEDDE8F00B3F84A /* swiftgen.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0C368CB82DEDDE8F00B3F84A /* swiftgen.yml */; };
 		0C368D0A2DEDE16000B3F84A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368D092DEDE16000B3F84A /* Alamofire */; };
+		0C368D4D2DEDFF8900B3F84A /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368D4C2DEDFF8900B3F84A /* Swinject */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C368D0A2DEDE16000B3F84A /* Alamofire in Frameworks */,
+				0C368D4D2DEDFF8900B3F84A /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +123,7 @@
 			name = TymeXAssignment;
 			packageProductDependencies = (
 				0C368D092DEDE16000B3F84A /* Alamofire */,
+				0C368D4C2DEDFF8900B3F84A /* Swinject */,
 			);
 			productName = TymeXAssignment;
 			productReference = 0C368BC72DEDD8A800B3F84A /* TymeXAssignment.app */;
@@ -207,6 +210,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				0C368D082DEDE16000B3F84A /* XCRemoteSwiftPackageReference "Alamofire" */,
+				0C368D4B2DEDFF8900B3F84A /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0C368BC82DEDD8A800B3F84A /* Products */;
@@ -584,6 +588,14 @@
 				minimumVersion = 5.10.2;
 			};
 		};
+		0C368D4B2DEDFF8900B3F84A /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = exactVersion;
+				version = 2.9.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -591,6 +603,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0C368D082DEDE16000B3F84A /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		0C368D4C2DEDFF8900B3F84A /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C368D4B2DEDFF8900B3F84A /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
