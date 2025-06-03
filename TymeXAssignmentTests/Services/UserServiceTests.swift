@@ -9,10 +9,6 @@ final class UserServiceTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockAPIClient = MockAPIClient()
-        ServiceContainer.container.register(APIClient.self) { _ in
-            self.mockAPIClient
-        }
-        .inObjectScope(.container)
         userService = UserServiceImpl(apiClient: mockAPIClient)
     }
     

@@ -2,37 +2,6 @@ import XCTest
 import SwiftData
 @testable import TymeXAssignment
 
-class MockUserService: UserService {
-    var mockUsersResult: Result<[GitHubUser], Error>?
-    var mockUserDetailResult: Result<GithubUserDetail, Error>?
-    
-    func fetchUsers(perPage: Int, since: Int) async throws -> [GitHubUser] {
-        guard let result = mockUsersResult else {
-            throw APIError(message: "No mock result set")
-        }
-        
-        switch result {
-        case .success(let users):
-            return users
-        case .failure(let error):
-            throw error
-        }
-    }
-    
-    func fetchUserDetail(username: String) async throws -> GithubUserDetail {
-        guard let result = mockUserDetailResult else {
-            throw APIError(message: "No mock result set")
-        }
-        
-        switch result {
-        case .success(let detail):
-            return detail
-        case .failure(let error):
-            throw error
-        }
-    }
-}
-
 @MainActor
 final class UserListObservableTests: XCTestCase {
     var mockService: MockUserService!
@@ -100,9 +69,6 @@ final class UserListObservableTests: XCTestCase {
             
             // Use mockService directly instead of getting from ServiceContainer
             observable = UserListObservable(service: mockService, modelContainer: modelContainer)
-            
-            // Add a print statement to verify we're using mock service
-            print("Using mock service in tests: \(mockService)")
         } catch {
             XCTFail("Failed to setup SwiftData container: \(error)")
         }
