@@ -30,14 +30,14 @@ struct UserListItemView: View {
             
             VStack(alignment: .leading) {
                 Text(user.login ?? "")
-                    .foregroundStyle(Asset.Colors.textColor.swiftUIColor)
+                    .foregroundStyle(.baseText)
                     .font(FontFamily.TTNormsPro.bold.swiftUIFont(size: 30))
                 
                 Divider()
                 
                 Link(destination: URL(string: "https://google.com")!) {
                     Text("https://google.com")
-                        .foregroundStyle(Asset.Colors.linkColor.swiftUIColor)
+                        .foregroundStyle(.baseLink)
                         .font(FontFamily.TTNormsPro.medium.swiftUIFont(size: 16))
                         .underline()
                 }
@@ -45,7 +45,7 @@ struct UserListItemView: View {
         }
         .padding()
         .background(RoundedRectangle(cornerRadius: 12).fill(.white))
-        .shadow(color: Asset.Colors.shadownColor.swiftUIColor, radius: 24, x: 0, y: 4)
+        .shadow(color: .baseShadow, radius: 24, x: 0, y: 4)
         .padding()
     }
 }
