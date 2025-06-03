@@ -55,6 +55,9 @@ final class UserListObservable {
         page = 0
         isLoading = true
         do {
+            if ProcessInfo.processInfo.arguments.contains("UI_TESTING") && ProcessInfo.processInfo.arguments.contains("FORCE_ERROR") {
+                throw APIError(message: "Test error")
+            }
             let result = try await service.fetchUsers(perPage: itemPerPage, since: page * itemPerPage)
             userList = result
             page += 1

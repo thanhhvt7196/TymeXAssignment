@@ -59,6 +59,7 @@ struct UserListView: View {
             skeletonView
         } else {
             listView
+                .accessibilityIdentifier("userList")
         }
     }
     
