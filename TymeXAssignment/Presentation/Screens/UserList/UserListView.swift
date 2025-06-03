@@ -9,6 +9,9 @@ import SwiftUI
 
 struct UserListView: View {
     @EnvironmentObject private var router: Router
+    
+    @State private var userListObservable = UserListObservable(service: ServiceContainer.get())
+    
     var body: some View {
         NavigationStack(path: $router.path) {
             listView
@@ -28,15 +31,26 @@ struct UserListView: View {
     @ViewBuilder
     private var listView: some View {
         List {
-            PlainListCell {
-                Text("UserListView")
-                    .background(.yellow)
+            ForEach(Array(userListObservable.userList.enumerated()), id: \.element) { index, user in
+                PlainListCell {
+                    UserListItemView(user: user)
+                }
+                .onAppear {
+                    if index == userListObservable.userList.count - 1 {
+                        Task {
+                            await userListObservable.loadMore()
+                        }
+                    }
+                }
             }
         }
         .listStyle(.plain)
         .listRowInsets(EdgeInsets())
         .scrollContentBackground(.hidden)
         .background(.baseWhite)
+        .refreshable {
+            await userListObservable.loadFirstPage(needLoading: false)
+        }
     }
 }
 

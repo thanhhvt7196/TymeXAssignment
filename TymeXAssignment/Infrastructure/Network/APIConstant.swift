@@ -9,7 +9,7 @@ struct APIConstant {
     static let githubAPIURL = "https://api.github.com"
     
     struct APIPath {
-        static let users = "users"
+        static let users = "/users"
     }
     
     struct APIParamKey {

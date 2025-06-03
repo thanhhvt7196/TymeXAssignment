@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-class APISession {
+struct APISession {
     static let session: Session = {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 60
@@ -18,11 +18,11 @@ class APISession {
 }
 
 protocol APIClient {
-    func request<T: Codable>(router: APIRouter) async throws -> T
+    func request<T: Codable>(router: APIRouter, type: T.Type) async throws -> T
 }
 
 class APIClientImpl: APIClient {
-    func request<T>(router: APIRouter) async throws -> T where T : Decodable, T : Encodable {
+    func request<T>(router: APIRouter, type: T.Type) async throws -> T where T : Decodable, T : Encodable {
         return try await withCheckedThrowingContinuation { continuation in
             APISession.session.request(router).responseData { response in
                 switch response.result {

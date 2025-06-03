@@ -7,6 +7,9 @@
 
 import UIKit
 import SwiftData
+import Pulse
+import PulseUI
+import PulseProxy
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     static var sharedModelContainer: ModelContainer = {
@@ -23,6 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        setupPulse()
         return true
+    }
+    
+    private func setupPulse() {
+        NetworkLogger.enableProxy()
     }
 }

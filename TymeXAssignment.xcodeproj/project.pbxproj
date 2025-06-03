@@ -11,6 +11,9 @@
 		0C368D0A2DEDE16000B3F84A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368D092DEDE16000B3F84A /* Alamofire */; };
 		0C368D4D2DEDFF8900B3F84A /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368D4C2DEDFF8900B3F84A /* Swinject */; };
 		0C368D5F2DEE068F00B3F84A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368D5E2DEE068F00B3F84A /* Kingfisher */; };
+		0C368E252DEEE6BE00B3F84A /* Pulse in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368E242DEEE6BE00B3F84A /* Pulse */; };
+		0C368E272DEEE6BE00B3F84A /* PulseProxy in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368E262DEEE6BE00B3F84A /* PulseProxy */; };
+		0C368E292DEEE6BE00B3F84A /* PulseUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0C368E282DEEE6BE00B3F84A /* PulseUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,8 +63,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C368E292DEEE6BE00B3F84A /* PulseUI in Frameworks */,
 				0C368D5F2DEE068F00B3F84A /* Kingfisher in Frameworks */,
+				0C368E272DEEE6BE00B3F84A /* PulseProxy in Frameworks */,
 				0C368D0A2DEDE16000B3F84A /* Alamofire in Frameworks */,
+				0C368E252DEEE6BE00B3F84A /* Pulse in Frameworks */,
 				0C368D4D2DEDFF8900B3F84A /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -127,6 +133,9 @@
 				0C368D092DEDE16000B3F84A /* Alamofire */,
 				0C368D4C2DEDFF8900B3F84A /* Swinject */,
 				0C368D5E2DEE068F00B3F84A /* Kingfisher */,
+				0C368E242DEEE6BE00B3F84A /* Pulse */,
+				0C368E262DEEE6BE00B3F84A /* PulseProxy */,
+				0C368E282DEEE6BE00B3F84A /* PulseUI */,
 			);
 			productName = TymeXAssignment;
 			productReference = 0C368BC72DEDD8A800B3F84A /* TymeXAssignment.app */;
@@ -215,6 +224,7 @@
 				0C368D082DEDE16000B3F84A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				0C368D4B2DEDFF8900B3F84A /* XCRemoteSwiftPackageReference "Swinject" */,
 				0C368D5D2DEE068F00B3F84A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				0C368E232DEEE6BE00B3F84A /* XCRemoteSwiftPackageReference "Pulse" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0C368BC82DEDD8A800B3F84A /* Products */;
@@ -612,6 +622,14 @@
 				minimumVersion = 8.3.2;
 			};
 		};
+		0C368E232DEEE6BE00B3F84A /* XCRemoteSwiftPackageReference "Pulse" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Pulse.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.1.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -629,6 +647,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0C368D5D2DEE068F00B3F84A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		0C368E242DEEE6BE00B3F84A /* Pulse */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C368E232DEEE6BE00B3F84A /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = Pulse;
+		};
+		0C368E262DEEE6BE00B3F84A /* PulseProxy */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C368E232DEEE6BE00B3F84A /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = PulseProxy;
+		};
+		0C368E282DEEE6BE00B3F84A /* PulseUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C368E232DEEE6BE00B3F84A /* XCRemoteSwiftPackageReference "Pulse" */;
+			productName = PulseUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

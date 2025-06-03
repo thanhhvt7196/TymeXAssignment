@@ -35,11 +35,14 @@ struct UserListItemView: View {
                 
                 Divider()
                 
-                Link(destination: URL(string: "https://google.com")!) {
-                    Text("https://google.com")
-                        .foregroundStyle(.baseLink)
+                if let htmlUrl = user.htmlUrl, let url = URL(string: htmlUrl) {
+                    Text(htmlUrl)
+                        .foregroundStyle(.link)
                         .font(FontFamily.TTNormsPro.medium.swiftUIFont(size: 16))
                         .underline()
+                        .onTapGesture {
+                            UIApplication.shared.open(url)
+                        }
                 }
             }
         }
