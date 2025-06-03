@@ -10,11 +10,8 @@ final class UserListObservableTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
-        // Setup mock service
         mockService = MockUserService()
         
-        // Setup initial mock data
         let mockUsers = [
             GitHubUser(
                 login: "user1",
@@ -61,13 +58,10 @@ final class UserListObservableTests: XCTestCase {
         ]
         mockService.mockUsersResult = .success(mockUsers)
         
-        // Setup in-memory SwiftData container
         do {
             let schema = Schema([GithubUserSwiftData.self])
             let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
             modelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])
-            
-            // Use mockService directly instead of getting from ServiceContainer
             observable = UserListObservable(service: mockService, modelContainer: modelContainer)
         } catch {
             XCTFail("Failed to setup SwiftData container: \(error)")
@@ -82,7 +76,6 @@ final class UserListObservableTests: XCTestCase {
     }
     
     func testLoadFirstPageSuccess() async throws {
-        // Given
         let mockUsers = [
             GitHubUser(
                 login: "user1",
@@ -129,10 +122,8 @@ final class UserListObservableTests: XCTestCase {
         ]
         mockService.mockUsersResult = .success(mockUsers)
         
-        // When
         await observable.loadFirstPage(needLoading: true)
         
-        // Then
         XCTAssertEqual(observable.userList.count, 2)
         XCTAssertEqual(observable.userList[0].id, 1)
         XCTAssertEqual(observable.userList[0].login, "user1")
@@ -140,7 +131,6 @@ final class UserListObservableTests: XCTestCase {
         XCTAssertEqual(observable.userList[1].login, "user2")
         XCTAssertNil(observable.errorMessage)
         
-        // Verify cache
         let descriptor = FetchDescriptor<GithubUserSwiftData>(sortBy: [SortDescriptor(\GithubUserSwiftData.id)])
         let cachedUsers = try modelContainer.mainContext.fetch(descriptor)
         XCTAssertEqual(cachedUsers.count, 2)
@@ -149,21 +139,16 @@ final class UserListObservableTests: XCTestCase {
     }
     
     func testLoadFirstPageError() async {
-        // Given
         let error = APIError(message: "Network error")
         mockService.mockUsersResult = .failure(error)
         
-        // When
         await observable.loadFirstPage(needLoading: true)
         
-        // Then
         XCTAssertTrue(observable.userList.isEmpty)
         XCTAssertEqual(observable.errorMessage, "Network error")
     }
     
     func testLoadMoreSuccess() async throws {
-        // Given
-        // Create initial users
         var initialUsers: [GitHubUser] = []
         for i in 1...2 {
             initialUsers.append(
@@ -219,10 +204,8 @@ final class UserListObservableTests: XCTestCase {
         ]
         mockService.mockUsersResult = .success(moreUsers)
         
-        // When
         await observable.loadMore()
         
-        // Then
         XCTAssertEqual(observable.userList.count, 3)
         XCTAssertEqual(observable.userList[0].id, 1)
         XCTAssertEqual(observable.userList[0].login, "user1")
@@ -231,7 +214,6 @@ final class UserListObservableTests: XCTestCase {
     }
     
     func testLoadCache() async throws {
-        // Given
         let user = GithubUserSwiftData(
             login: "user1",
             id: 1,
@@ -242,10 +224,8 @@ final class UserListObservableTests: XCTestCase {
         modelContainer.mainContext.insert(user)
         try modelContainer.mainContext.save()
         
-        // When
         observable = UserListObservable(service: mockService, modelContainer: modelContainer)
         
-        // Then
         XCTAssertEqual(observable.userList.count, 1)
         XCTAssertEqual(observable.userList[0].id, 1)
         XCTAssertEqual(observable.userList[0].login, "user1")

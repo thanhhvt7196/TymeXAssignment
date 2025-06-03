@@ -18,7 +18,6 @@ final class UserDetailObservableTests: XCTestCase {
     }
     
     func testFetchUserDetailSuccess() async throws {
-        // Given
         let mockUserDetail = GithubUserDetail(
             id: 1,
             login: "octocat",
@@ -56,13 +55,10 @@ final class UserDetailObservableTests: XCTestCase {
         )
         mockService.mockUserDetailResult = .success(mockUserDetail)
         
-        // When
         observable = UserDetailObservable(service: mockService, username: "octocat")
         
-        // Wait a bit for the async task to complete
-        try await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        try await Task.sleep(nanoseconds: 100_000_000)
         
-        // Then
         XCTAssertNotNil(observable.userDetail)
         XCTAssertEqual(observable.userDetail?.id, 1)
         XCTAssertEqual(observable.userDetail?.login, "octocat")
@@ -76,24 +72,19 @@ final class UserDetailObservableTests: XCTestCase {
     }
     
     func testFetchUserDetailError() async throws {
-        // Given
         let error = APIError(message: "User not found")
         mockService.mockUserDetailResult = .failure(error)
         
-        // When
         observable = UserDetailObservable(service: mockService, username: "nonexistent")
         
-        // Wait a bit for the async task to complete
-        try await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        try await Task.sleep(nanoseconds: 100_000_000)
         
-        // Then
         XCTAssertNil(observable.userDetail)
         XCTAssertEqual(observable.errorMessage, "User not found")
         XCTAssertFalse(observable.isLoading)
     }
     
     func testLoadingState() async throws {
-        // Given
         let mockUserDetail = GithubUserDetail(
             id: 1,
             login: "octocat",
@@ -130,23 +121,17 @@ final class UserDetailObservableTests: XCTestCase {
             updatedAt: "2008-01-14T04:33:35Z"
         )
         
-        // Add a delay to the mock service to simulate network request
-        mockService.delay = 50_000_000  // 0.05 seconds
+        mockService.delay = 50_000_000
         mockService.mockUserDetailResult = .success(mockUserDetail)
         
-        // When
         observable = UserDetailObservable(service: mockService, username: "octocat")
         
-        // Wait a tiny bit for the Task to start
-        try await Task.sleep(nanoseconds: 10_000_000) // 0.01 seconds
+        try await Task.sleep(nanoseconds: 10_000_000)
         
-        // Then - Check initial loading state
         XCTAssertTrue(observable.isLoading)
         
-        // Wait for the loading to complete
-        try await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        try await Task.sleep(nanoseconds: 100_000_000)
         
-        // Then - Check final state
         XCTAssertFalse(observable.isLoading)
         XCTAssertNotNil(observable.userDetail)
         XCTAssertNil(observable.errorMessage)

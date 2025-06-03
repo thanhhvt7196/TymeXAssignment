@@ -19,7 +19,6 @@ final class UserServiceTests: XCTestCase {
     }
     
     func testFetchUsersSuccess() async throws {
-        // Given
         let mockUsers = [
             GitHubUser(
                 login: "user1",
@@ -67,10 +66,8 @@ final class UserServiceTests: XCTestCase {
         
         mockAPIClient.mockResult = .success(mockUsers)
         
-        // When
         let users = try await userService.fetchUsers(perPage: 20, since: 0)
         
-        // Then
         XCTAssertEqual(users.count, 2)
         XCTAssertEqual(users[0].id, 1)
         XCTAssertEqual(users[0].login, "user1")
@@ -79,11 +76,9 @@ final class UserServiceTests: XCTestCase {
     }
     
     func testFetchUsersError() async {
-        // Given
         let error = APIError(message: "Network error")
         mockAPIClient.mockResult = .failure(error)
         
-        // When/Then
         do {
             _ = try await userService.fetchUsers(perPage: 20, since: 0)
             XCTFail("Expected to throw an error")
@@ -95,7 +90,6 @@ final class UserServiceTests: XCTestCase {
     }
     
     func testFetchUserDetailSuccess() async throws {
-        // Given
         let mockUserDetail = GithubUserDetail(
             id: 1,
             login: "octocat",
@@ -134,10 +128,8 @@ final class UserServiceTests: XCTestCase {
         
         mockAPIClient.mockResult = .success(mockUserDetail)
         
-        // When
         let userDetail = try await userService.fetchUserDetail(username: "octocat")
         
-        // Then
         XCTAssertEqual(userDetail.id, 1)
         XCTAssertEqual(userDetail.login, "octocat")
         XCTAssertEqual(userDetail.name, "monalisa octocat")

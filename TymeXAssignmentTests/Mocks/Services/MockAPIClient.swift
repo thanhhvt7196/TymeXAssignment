@@ -3,7 +3,7 @@ import Foundation
 
 class MockAPIClient: APIClient {
     var mockResult: Result<Any, Error>?
-    var delay: UInt64 = 0  // Delay in nanoseconds
+    var delay: UInt64 = 0
     
     func request<T: Codable>(router: APIRouter, type: T.Type) async throws -> T {
         if delay > 0 {

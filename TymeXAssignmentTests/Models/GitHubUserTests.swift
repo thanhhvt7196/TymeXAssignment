@@ -3,7 +3,6 @@ import XCTest
 
 final class GitHubUserTests: XCTestCase {
     func testGitHubUserDecoding() throws {
-        // Given
         let json = """
         {
             "login": "octocat",
@@ -16,10 +15,8 @@ final class GitHubUserTests: XCTestCase {
         }
         """.data(using: .utf8)!
         
-        // When
         let user = try JSONDecoder().decode(GitHubUser.self, from: json)
         
-        // Then
         XCTAssertEqual(user.login, "octocat")
         XCTAssertEqual(user.id, 1)
         XCTAssertEqual(user.nodeId, "MDQ6VXNlcjE=")
@@ -30,7 +27,6 @@ final class GitHubUserTests: XCTestCase {
     }
     
     func testGitHubUserSwiftDataConversion() {
-        // Given
         let user = GitHubUser(
             login: "octocat",
             id: 1,
@@ -53,11 +49,9 @@ final class GitHubUserTests: XCTestCase {
             siteAdmin: false
         )
         
-        // When
         let swiftDataUser = user.toSwiftData()
         let reconvertedUser = swiftDataUser.toDomain()
         
-        // Then
         XCTAssertEqual(user.login, reconvertedUser.login)
         XCTAssertEqual(user.id, reconvertedUser.id)
         XCTAssertEqual(user.nodeId, reconvertedUser.nodeId)

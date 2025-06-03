@@ -4,7 +4,7 @@ import Foundation
 class MockUserService: UserService {
     var mockUsersResult: Result<[GitHubUser], Error>?
     var mockUserDetailResult: Result<GithubUserDetail, Error>?
-    var delay: UInt64 = 0  // Delay in nanoseconds
+    var delay: UInt64 = 0
     
     func fetchUsers(perPage: Int, since: Int) async throws -> [GitHubUser] {
         if delay > 0 {
