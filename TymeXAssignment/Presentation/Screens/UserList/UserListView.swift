@@ -31,12 +31,12 @@ struct UserListView: View {
     @ViewBuilder
     private var listView: some View {
         List {
-            ForEach(Array(userListObservable.userList.enumerated()), id: \.element) { index, user in
+            ForEach(userListObservable.userList) { user in
                 PlainListCell {
                     UserListItemView(user: user)
                 }
                 .onAppear {
-                    if index == userListObservable.userList.count - 1 {
+                    if user == userListObservable.userList.last {
                         Task {
                             await userListObservable.loadMore()
                         }
