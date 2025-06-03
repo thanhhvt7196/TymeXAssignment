@@ -15,9 +15,10 @@ struct PlainListCell<Content: View>: View {
     }
     
     var body: some View {
-        HStack {
-            Spacer()
-            content
-        }
+        content
+            .listRowInsets(EdgeInsets())
+            .listRowSpacing(.zero)
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
     }
 }
