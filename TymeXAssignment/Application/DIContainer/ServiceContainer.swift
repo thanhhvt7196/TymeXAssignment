@@ -15,13 +15,12 @@ struct ServiceContainer: DIContainer {
         container.register(APIClient.self) { _ in
             APIClientImpl()
         }
-        .inObjectScope(.transient)
+        .inObjectScope(.container)
         
         container.register(UserService.self) { _ in
             UserServiceImpl()
         }
         .inObjectScope(.transient)
-        
         
         container.register(ModelContainer.self) { _ in
             AppDelegate.sharedModelContainer

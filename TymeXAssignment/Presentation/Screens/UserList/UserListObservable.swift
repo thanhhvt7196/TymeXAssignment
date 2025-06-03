@@ -69,7 +69,7 @@ final class UserListObservable {
         defer {
             isLoadmore = false
         }
-        guard page > 0, !isLoadmore, userList.count >= itemPerPage else {
+        guard page > 0, !isLoadmore else {
             return
         }
         isLoadmore = true

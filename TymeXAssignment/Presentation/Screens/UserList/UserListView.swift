@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct UserListView: View {
     @EnvironmentObject private var router: Router
+    @State private var userListObservable: UserListObservable
     
-    @State private var userListObservable = UserListObservable(service: ServiceContainer.get(), modelContainer: ServiceContainer.get())
+    init(service: UserService = ServiceContainer.get(), modelContainer: ModelContainer = ServiceContainer.get()) {
+        _userListObservable = State(wrappedValue: UserListObservable(service: service, modelContainer: modelContainer))
+    }
     
     var body: some View {
         NavigationStack(path: $router.path) {
