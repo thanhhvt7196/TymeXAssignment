@@ -25,6 +25,14 @@ struct UserListView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .toolbarBackground(.white, for: .navigationBar)
+                .navigationDestination(for: RouterPath.self) { path in
+                    switch path {
+                    case .userDetail(let user):
+                        UserDetailView(username: user.login ?? "")
+                    case .userList:
+                        UserListView()
+                    }
+                }
         }
     }
     
@@ -34,6 +42,10 @@ struct UserListView: View {
             ForEach(userListObservable.userList) { user in
                 PlainListCell {
                     UserListItemView(user: user)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    router.path.append(RouterPath.userDetail(user))
                 }
                 .onAppear {
                     if user == userListObservable.userList.last {

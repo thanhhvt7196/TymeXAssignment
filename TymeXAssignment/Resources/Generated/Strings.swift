@@ -10,6 +10,12 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
+  /// Blog
+  internal static let blogTitle = L10n.tr("Localizable", "blog_title", fallback: "Blog")
+  /// Người theo dõi
+  internal static let followerTitle = L10n.tr("Localizable", "follower_title", fallback: "Người theo dõi")
+  /// Đang theo dõi
+  internal static let followingTitle = L10n.tr("Localizable", "following_title", fallback: "Đang theo dõi")
   /// Chi tiết người dùng
   internal static let userDetailScreenTitle = L10n.tr("Localizable", "user_detail_screen_title", fallback: "Chi tiết người dùng")
   /// Người dùng Github

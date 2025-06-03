@@ -1,2 +1,5 @@
 "user_list_screen_title" = "Github Users";
 "user_detail_screen_title" = "User Details";
+"follower_title" = "Followers";
+"following_title" = "Following";
+"blog_title" = "Blog";

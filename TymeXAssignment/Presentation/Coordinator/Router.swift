@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum RouterPath {
+enum RouterPath: Hashable {
     case userList
     case userDetail(GitHubUser)
 }

@@ -1,2 +1,5 @@
 "user_list_screen_title" = "Người dùng Github";
 "user_detail_screen_title" = "Chi tiết người dùng";
+"follower_title" = "Người theo dõi";
+"following_title" = "Đang theo dõi";
+"blog_title" = "Blog";

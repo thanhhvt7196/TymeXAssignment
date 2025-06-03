@@ -27,6 +27,9 @@ internal enum Asset {
   internal enum Assets {
     internal static let accentColor = ColorAsset(name: "AccentColor")
     internal static let avatarDefault = ImageAsset(name: "avatar_default")
+    internal static let followers = ImageAsset(name: "followers")
+    internal static let following = ImageAsset(name: "following")
+    internal static let place = ImageAsset(name: "place")
   }
   internal enum Colors {
     internal static let baseBackground = ColorAsset(name: "base_background")
