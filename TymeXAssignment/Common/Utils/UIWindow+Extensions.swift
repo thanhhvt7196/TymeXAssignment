@@ -1,8 +1,8 @@
 //
-//  UIWindowExt.swift
-//  RepairCheck
+//  UIWindow+Extensions.swift
+//  TymeXAssignment
 //
-//  Created by thanh tien on 2/16/24.
+//  Created by thanh tien on 2/6/25.
 //
 
 import Foundation

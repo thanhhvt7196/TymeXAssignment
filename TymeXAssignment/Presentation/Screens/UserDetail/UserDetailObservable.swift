@@ -12,8 +12,8 @@ import Observation
 final class UserDetailObservable {
     var userDetail: GithubUserDetail?
     var isLoading = false
-    var error: Error?
-    
+    var errorMessage: String?
+
     private let service: UserService
     private let username: String
     
@@ -34,7 +34,7 @@ final class UserDetailObservable {
             let result = try await service.fetchUserDetail(username: username)
             userDetail = result
         } catch {
-            self.error = error
+            errorMessage = (error as? APIError)?.message ?? error.localizedDescription
         }
     }
 }

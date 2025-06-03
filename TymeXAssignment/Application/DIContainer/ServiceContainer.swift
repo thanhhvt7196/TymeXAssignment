@@ -6,6 +6,7 @@
 //
 
 import Swinject
+import SwiftData
 
 struct ServiceContainer: DIContainer {
     static var container: Container {
@@ -14,10 +15,16 @@ struct ServiceContainer: DIContainer {
         container.register(APIClient.self) { _ in
             APIClientImpl()
         }
-        .inObjectScope(.container)
+        .inObjectScope(.transient)
         
         container.register(UserService.self) { _ in
             UserServiceImpl()
+        }
+        .inObjectScope(.transient)
+        
+        
+        container.register(ModelContainer.self) { _ in
+            AppDelegate.sharedModelContainer
         }
         .inObjectScope(.container)
         

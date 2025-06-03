@@ -3,3 +3,5 @@
 "follower_title" = "Followers";
 "following_title" = "Following";
 "blog_title" = "Blog";
+"error_alert_title" = "Đã có lỗi xảy ra!";
+"ok_button" = "OK";

@@ -12,10 +12,14 @@ import Foundation
 internal enum L10n {
   /// Blog
   internal static let blogTitle = L10n.tr("Localizable", "blog_title", fallback: "Blog")
+  /// An error occur!
+  internal static let errorAlertTitle = L10n.tr("Localizable", "error_alert_title", fallback: "An error occur!")
   /// Người theo dõi
   internal static let followerTitle = L10n.tr("Localizable", "follower_title", fallback: "Người theo dõi")
   /// Đang theo dõi
   internal static let followingTitle = L10n.tr("Localizable", "following_title", fallback: "Đang theo dõi")
+  /// OK
+  internal static let okButton = L10n.tr("Localizable", "ok_button", fallback: "OK")
   /// Chi tiết người dùng
   internal static let userDetailScreenTitle = L10n.tr("Localizable", "user_detail_screen_title", fallback: "Chi tiết người dùng")
   /// Người dùng Github

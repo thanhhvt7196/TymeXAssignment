@@ -10,11 +10,11 @@ import SwiftUI
 struct UserListView: View {
     @EnvironmentObject private var router: Router
     
-    @State private var userListObservable = UserListObservable(service: ServiceContainer.get())
+    @State private var userListObservable = UserListObservable(service: ServiceContainer.get(), modelContainer: ServiceContainer.get())
     
     var body: some View {
         NavigationStack(path: $router.path) {
-            listView
+            contentView
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Text(L10n.userListScreenTitle)
@@ -33,7 +33,52 @@ struct UserListView: View {
                         UserListView()
                     }
                 }
+                .showErrorAlert(
+                    isPresented: Binding<Bool>(
+                        get: {
+                            userListObservable.errorMessage != nil
+                        },
+                        set: { newValue in
+                            if !newValue {
+                                userListObservable.errorMessage = nil
+                            }
+                        }
+                    ),
+                    message: userListObservable.errorMessage ?? ""
+                )
         }
+    }
+    
+    @ViewBuilder
+    private var contentView: some View {
+        if userListObservable.isLoading && userListObservable.userList.isEmpty {
+            skeletonView
+        } else {
+            listView
+        }
+    }
+    
+    @ViewBuilder
+    private var skeletonView: some View {
+        VStack(spacing: 16) {
+            SkeletonView {
+                RoundedRectangle(cornerRadius: 12)
+            }
+            .frame(height: 160)
+
+            SkeletonView {
+                RoundedRectangle(cornerRadius: 12)
+            }
+            .frame(height: 160)
+
+            SkeletonView {
+                RoundedRectangle(cornerRadius: 12)
+            }
+            .frame(height: 160)
+            
+            Spacer()
+        }
+        .padding()
     }
     
     @ViewBuilder

@@ -1,4 +1,6 @@
 import Observation
+import Foundation
+import SwiftData
 
 @MainActor
 @Observable
@@ -6,16 +8,43 @@ final class UserListObservable {
     var isLoading = false
     var isLoadmore = false
     var userList = [GitHubUser]()
-    var error: Error?
+    var errorMessage: String?
     
     private let service: UserService
     private var page = 0
     private let itemPerPage = 20
+    private let modelContainer: ModelContainer
     
-    init (service: UserService) {
+    init (service: UserService, modelContainer: ModelContainer) {
         self.service = service
+        self.modelContainer = modelContainer
+        loadCache()
         Task {
-            await loadFirstPage(needLoading: true)
+            await loadFirstPage(needLoading: userList.isEmpty)
+        }
+    }
+    
+    private func loadCache() {
+        let userListFetchDescriptor = FetchDescriptor<GithubUserSwiftData>(sortBy: [SortDescriptor(\GithubUserSwiftData.id)])
+        let cachedUserList = (try? modelContainer.mainContext.fetch(userListFetchDescriptor)) ?? []
+        userList = cachedUserList.map { $0.toDomain() }
+    }
+    
+    private func saveCache(userList: [GitHubUser]) {
+        let userListFetchDescriptor = FetchDescriptor<GithubUserSwiftData>()
+        do {
+            let oldCache = try modelContainer.mainContext.fetch(userListFetchDescriptor)
+            oldCache.forEach { cache in
+                modelContainer.mainContext.delete(cache)
+            }
+            try modelContainer.mainContext.save()
+            
+            userList.forEach { user in
+                modelContainer.mainContext.insert(user.toSwiftData())
+            }
+            try modelContainer.mainContext.save()
+        } catch {
+            
         }
     }
     
@@ -29,8 +58,9 @@ final class UserListObservable {
             let result = try await service.fetchUsers(perPage: itemPerPage, since: page * itemPerPage)
             userList = result
             page += 1
+            saveCache(userList: result)
         } catch {
-            self.error = error
+            errorMessage = (error as? APIError)?.message ?? error.localizedDescription
             userList = []
         }
     }

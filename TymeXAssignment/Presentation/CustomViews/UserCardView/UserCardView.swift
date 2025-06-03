@@ -35,9 +35,9 @@ struct UserCardView: View {
                     .foregroundStyle(.baseText)
                     .font(FontFamily.TTNormsPro.bold.swiftUIFont(size: 30))
                 
-                Divider()
-                
                 if let location = location {
+                    Divider()
+
                     HStack(spacing: 8) {
                         Asset.Assets.place.swiftUIImage
                             .resizable()
@@ -54,7 +54,10 @@ struct UserCardView: View {
             }
         }
         .padding()
-        .background(RoundedRectangle(cornerRadius: 12).fill(.white))
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.white)
+        )
         .shadow(color: .baseShadow, radius: 24, x: 0, y: 4)
         .padding()
     }
