@@ -37,6 +37,9 @@ struct UserCardView: View {
                 
                 if let location = location {
                     Divider()
+                    
+                    Spacer()
+                        .frame(height: 20)
 
                     HStack(spacing: 8) {
                         Asset.Assets.place.swiftUIImage
@@ -54,6 +57,7 @@ struct UserCardView: View {
             }
         }
         .padding()
+        .frame(maxWidth: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(.white)

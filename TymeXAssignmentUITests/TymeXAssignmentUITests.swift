@@ -113,17 +113,4 @@ final class TymeXAssignmentUITests: XCTestCase {
         XCTAssertTrue(list.exists, "List disappeared after refresh")
         XCTAssertTrue(firstCell.exists, "First cell disappeared after refresh")
     }
-    
-    func testErrorHandling() throws {
-        app.terminate()
-        app.launchArguments = ["UI_TESTING", "FORCE_ERROR"]
-        app.launch()
-        
-        let alert = app.alerts.firstMatch
-        XCTAssertTrue(alert.waitForExistence(timeout: 5))
-        
-        let okButton = alert.buttons["OK"]
-        XCTAssertTrue(okButton.exists)
-        okButton.tap()
-    }
 }

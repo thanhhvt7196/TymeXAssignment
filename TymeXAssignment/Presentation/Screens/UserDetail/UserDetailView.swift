@@ -61,6 +61,7 @@ struct UserDetailView: View {
                     .frame(height: 12)
                 
                 detailCardView
+                    .frame(maxWidth: .infinity)
                 
                 Spacer()
                     .frame(height: 24)

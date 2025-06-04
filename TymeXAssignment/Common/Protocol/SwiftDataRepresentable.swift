@@ -5,10 +5,11 @@
 //  Created by thanh tien on 2/6/25.
 //
 
+import SwiftData
 import Foundation
 
 protocol SwiftDataRepresentable {
-    associatedtype SwiftDataType
+    associatedtype SwiftDataType: PersistentModel
     
     func toSwiftData() -> SwiftDataType
 }
