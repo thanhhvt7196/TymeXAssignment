@@ -332,6 +332,7 @@ struct UserDetailView: View {
 
 The project uses the following libraries:
 
+### Dependency Injection
 - **[Swinject](https://github.com/Swinject/Swinject)**: A lightweight dependency injection framework for Swift
 
 ### Networking
