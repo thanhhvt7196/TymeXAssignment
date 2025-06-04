@@ -37,15 +37,15 @@ The project follows a simple and efficient architecture leveraging SwiftUI's bui
 Our architecture follows a unidirectional data flow pattern where Views are driven by Observable state:
 
 ```
-┌─────────────────┐        ┌───────────────────┐        ┌─────────────┐
-│     SwiftUI     │  owns  │    Observable     │  owns  │    Model    │
-│      View       │───────>│      Object       │───────>│    Data     │
-│                 │        │                   │        │             │
-└────────┬────────┘        └────────┬─────────┘        └──────┬──────┘
-         │                          │                          │
-         │                          │                          │
-         │      Data binding        │         Notifies         │
-         └──────────────────────────┘◀─────────────────────────┘
+        ┌─────────────────┐        ┌───────────────────┐        ┌─────────────┐
+        │     SwiftUI     │  owns  │     Observable    │  owns  │    Model    │
+        │      View       │───────>│       Object      │───────>│     Data    │
+        │                 │        │                   │        │             │
+        └───────┬─────────┘        └───────┬───────────┘        └─────┬───────┘
+                │                          │                          │
+                │                          │                          │
+                │      Data binding        │         Notifies         │
+                └──────────────────────────┘◀─────────────────────────┘
 ```
 
 **Key Components:**
