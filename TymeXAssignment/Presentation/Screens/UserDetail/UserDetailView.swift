@@ -16,17 +16,19 @@ struct UserDetailView: View {
             .toolbarBackground(.white, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .renderingMode(.template)
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(.baseText)
-                        .frame(width: 24, height: 24)
-                        .onTapGesture {
-                            if !router.path.isEmpty {
-                                router.path.removeLast()
-                            }
+                    Button(action: {
+                        if !router.path.isEmpty {
+                            router.path.removeLast()
                         }
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .resizable()
+                            .renderingMode(.template)
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundStyle(.baseText)
+                            .frame(width: 24, height: 24)
+                    }
+                    .accessibilityIdentifier("backButton")
                 }
                 
                 ToolbarItem(placement: .principal) {

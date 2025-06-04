@@ -26,31 +26,34 @@ final class TymeXAssignmentUITests: XCTestCase {
     }
     
     func testUserListBasicFlow() throws {
-        let list = app.tables.firstMatch
-        XCTAssertTrue(list.exists)
-        
+        let list = app.descendants(matching: .any).matching(identifier: "userList").firstMatch
+        XCTAssertTrue(list.exists, "No list or scroll view found within the app")
+
         let firstCell = list.cells.firstMatch
-        XCTAssertTrue(firstCell.waitForExistence(timeout: 5))
-        
+        XCTAssertTrue(firstCell.waitForExistence(timeout: 5), "First cell did not appear")
+
         let username = firstCell.staticTexts.firstMatch
         XCTAssertTrue(username.exists)
         
-        firstCell.tap()
-        
-        let backButton = app.buttons["chevron.left"]
-        XCTAssertTrue(backButton.waitForExistence(timeout: 5))
+        let cellCoordinate = firstCell.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        cellCoordinate.tap()
+
+        let backButton = app.buttons["backButton"]
+        let exists = backButton.waitForExistence(timeout: 10)
+        XCTAssertTrue(exists, "Back button with identifier 'backButton' not found after 10 seconds")
+
         backButton.tap()
-        
+
         XCTAssertTrue(list.waitForExistence(timeout: 5))
     }
     
     func testUserListPagination() throws {
-        let list = app.tables.firstMatch
-        XCTAssertTrue(list.exists)
-        
+        let list = app.descendants(matching: .any).matching(identifier: "userList").firstMatch
+        XCTAssertTrue(list.exists, "No list or scroll view found within the app")
+
         let firstCell = list.cells.firstMatch
-        XCTAssertTrue(firstCell.waitForExistence(timeout: 5))
-        
+        XCTAssertTrue(firstCell.waitForExistence(timeout: 5), "First cell did not appear")
+
         let initialCellCount = list.cells.count
         XCTAssertGreaterThan(initialCellCount, 0)
         
@@ -63,32 +66,32 @@ final class TymeXAssignmentUITests: XCTestCase {
     }
     
     func testUserDetailScreen() throws {
-//        // Find the ScrollView
-//        let list = app.descendants(matching: .any).matching(identifier: "userList").firstMatch
-//        XCTAssertTrue(list.exists, "List view did not appear")
-//        
-//        // Find and tap the first cell
-//        let cells = scrollView.otherElements
-//        let firstCell = cells.firstMatch
-//        XCTAssertTrue(firstCell.waitForExistence(timeout: 5), "First cell did not appear")
-//        firstCell.tap()
-//        
-//        // Verify we're on detail screen
-//        let followerTitle = app.staticTexts["Followers"]
-//        XCTAssertTrue(followerTitle.waitForExistence(timeout: 5))
-//        
-//        let followingTitle = app.staticTexts["Following"]
-//        XCTAssertTrue(followingTitle.exists)
-//        
-//        let blogTitle = app.staticTexts["Blog"]
-//        XCTAssertTrue(blogTitle.exists)
-//        
-//        let backButton = app.buttons["chevron.left"]
-//        XCTAssertTrue(backButton.exists)
-//        backButton.tap()
-//        
-//        // Verify we're back to list
-//        XCTAssertTrue(scrollView.waitForExistence(timeout: 5))
+        let list = app.descendants(matching: .any).matching(identifier: "userList").firstMatch
+        
+        XCTAssertTrue(list.exists, "No list or scroll view found within the app")
+
+        let firstCell = list.cells.firstMatch
+        XCTAssertTrue(firstCell.waitForExistence(timeout: 5), "First cell did not appear")
+        
+        let cellCoordinate = firstCell.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
+        cellCoordinate.tap()
+
+        let followerTitle = app.staticTexts["Followers"]
+        XCTAssertTrue(followerTitle.waitForExistence(timeout: 5))
+        
+        let followingTitle = app.staticTexts["Following"]
+        XCTAssertTrue(followingTitle.exists)
+        
+        let blogTitle = app.staticTexts["Blog"]
+        XCTAssertTrue(blogTitle.exists)
+        
+        let backButton = app.buttons["backButton"]
+        let exists = backButton.waitForExistence(timeout: 10)
+        XCTAssertTrue(exists, "Back button with identifier 'backButton' not found after 10 seconds")
+        
+        backButton.tap()
+        
+        XCTAssertTrue(list.waitForExistence(timeout: 5))
     }
     
     func testPullToRefresh() throws {
