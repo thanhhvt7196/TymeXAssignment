@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct UserDetailView: View {
-    @EnvironmentObject private var router: Router
+    @Environment(Router.self) private var router: Router
     @State private var userDetailObservable: UserDetailObservable
     
     init(username: String) {
@@ -9,6 +9,7 @@ struct UserDetailView: View {
     }
     
     var body: some View {
+        @Bindable var router = router
         contentView
             .navigationBarBackButtonHidden()
             .navigationBarTitleDisplayMode(.inline)

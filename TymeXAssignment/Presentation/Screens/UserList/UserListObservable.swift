@@ -18,8 +18,8 @@ final class UserListObservable {
     init (service: UserService, modelContainer: ModelContainer) {
         self.service = service
         self.modelContainer = modelContainer
-        loadCache()
         Task {
+            loadCache()
             await loadFirstPage(needLoading: userList.isEmpty)
         }
     }

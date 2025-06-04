@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct UserListView: View {
-    @EnvironmentObject private var router: Router
+    @Environment(Router.self) private var router: Router
     @State private var userListObservable: UserListObservable
     
     init(service: UserService = ServiceContainer.get(), modelContainer: ModelContainer = ServiceContainer.get()) {
@@ -17,6 +17,7 @@ struct UserListView: View {
     }
     
     var body: some View {
+        @Bindable var router = router
         NavigationStack(path: $router.path) {
             contentView
                 .toolbar {

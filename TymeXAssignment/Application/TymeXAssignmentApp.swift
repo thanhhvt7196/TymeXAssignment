@@ -10,13 +10,13 @@ import SwiftUI
 @main
 struct TymeXAssignmentApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-    @StateObject private var router = Router()
+    @State private var router = Router()
 
     var body: some Scene {
         WindowGroup {
             UserListView()
                 .preferredColorScheme(.light)
-                .environmentObject(router)
+                .environment(router)
         }
     }
 }

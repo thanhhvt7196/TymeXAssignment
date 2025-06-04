@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Observation
 
 enum RouterPath: Hashable {
     case userList
     case userDetail(GitHubUser)
 }
 
-final class Router: ObservableObject {
-    @Published var path = NavigationPath()
+@Observable
+final class Router {
+    var path = NavigationPath()
 }
