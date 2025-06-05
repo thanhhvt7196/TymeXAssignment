@@ -59,13 +59,16 @@ final class UserListObservable {
         isLoadmore = true
         
         do {
-            for user in try await service.fetchUsers(perPage: itemPerPage, since: page * itemPerPage) {
-                // github API return some duplicated users, so we need to check if they already existed
-                if !userList.map({ $0.id }).contains(user.id) {
-                    userList.append(user)
+            let newUsers = try await service.fetchUsers(perPage: itemPerPage, since: page * itemPerPage)
+            if !newUsers.isEmpty {
+                for user in newUsers {
+                    // github API return some duplicated users, so we need to check if they already existed
+                    if !userList.map({ $0.id }).contains(user.id) {
+                        userList.append(user)
+                    }
                 }
+                page += 1
             }
-            page += 1
         } catch {
             // do nothing
             print(error)
