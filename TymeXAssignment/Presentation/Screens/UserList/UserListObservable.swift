@@ -46,7 +46,6 @@ final class UserListObservable {
             saveCache(userList: result)
         } catch {
             errorMessage = (error as? APIError)?.message ?? error.localizedDescription
-            userList = []
         }
     }
     
