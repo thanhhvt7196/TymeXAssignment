@@ -8,42 +8,29 @@
 import Foundation
 @testable import TymeXAssignment
 
-class MockUserListUseCase: UserListUsecase {
-    var mockResult: Result<[GitHubUser], Error>?
-    var lastPerPage: Int?
-    var lastSince: Int?
-    var delay: UInt64 = 0
-    var mockStoredUsers: [GitHubUser] = []
+final class MockUserListUseCase: UserListUsecase {
+    private let userService: MockUserService
+    private let userStore: MockUserStore
+    
+    
+    init(userService: MockUserService, userStore: MockUserStore) {
+        self.userService = userService
+        self.userStore = userStore
+    }
     
     func fetchUsers(perPage: Int, since: Int) async throws -> [GitHubUser] {
-        lastPerPage = perPage
-        lastSince = since
-        
-        if delay > 0 {
-            try? await Task.sleep(nanoseconds: delay)
-        }
-        
-        guard let mockResult = mockResult else {
-            throw APIError(message: "No mock result set")
-        }
-        
-        switch mockResult {
-        case .success(let users):
-            return users
-        case .failure(let error):
-            throw error
-        }
+        return try await userService.fetchUsers(perPage: perPage, since: since)
     }
     
     func getAllUsers() -> [GitHubUser] {
-        return mockStoredUsers
+        return userStore.getAllUsers()
     }
     
     func clean() {
-        mockStoredUsers.removeAll()
+        return userStore.clean()
     }
     
     func add(users: [GitHubUser]) {
-        mockStoredUsers.append(contentsOf: users)
+        return userStore.add(users: users)
     }
 }
