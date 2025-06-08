@@ -24,7 +24,7 @@ final class UserStoreTests: XCTestCase {
         try? await super.tearDown()
     }
     
-    func testAddUsers_ShouldSaveToStore() async throws {
+    func testAddUsers_ShouldSaveToStore() {
         let users = GitHubUser.mockList()
         
         userStore.add(users: users)
@@ -37,13 +37,13 @@ final class UserStoreTests: XCTestCase {
         XCTAssertEqual(storedUsers[1].id, GitHubUser.mock2().id)
     }
     
-    func testGetAllUsers_WhenEmpty_ShouldReturnEmptyArray() async throws {
+    func testGetAllUsers_WhenEmpty_ShouldReturnEmptyArray() {
         let users = userStore.getAllUsers()
         
         XCTAssertTrue(users.isEmpty)
     }
     
-    func testGetAllUsers_ShouldReturnSortedById() async throws {
+    func testGetAllUsers_ShouldReturnSortedById() {
         let users = [
             GitHubUser.mock3(),
             GitHubUser.mock(),
@@ -62,7 +62,7 @@ final class UserStoreTests: XCTestCase {
         XCTAssertEqual(storedUsers[2].login, GitHubUser.mock3().login)
     }
     
-    func testClean_ShouldRemoveAllUsers() async throws {
+    func testClean_ShouldRemoveAllUsers() {
         let users = GitHubUser.mockList()
 
         userStore.add(users: users)
@@ -72,7 +72,7 @@ final class UserStoreTests: XCTestCase {
         XCTAssertTrue(userStore.getAllUsers().isEmpty)
     }
     
-    func testAddUsers_WithAllFields_ShouldPreserveData() async throws {
+    func testAddUsers_WithAllFields_ShouldPreserveData() {
         let user = GitHubUser.mock()
         
         userStore.add(users: [user])
