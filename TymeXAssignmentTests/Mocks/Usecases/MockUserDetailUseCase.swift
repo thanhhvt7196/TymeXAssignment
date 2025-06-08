@@ -1,5 +1,5 @@
 //
-//  MockAPIClient.swift
+//  MockUserDetailUseCase.swift
 //  TymeXAssignment
 //
 //  Created by thanh tien on 8/6/25.
@@ -8,13 +8,13 @@
 import Foundation
 @testable import TymeXAssignment
 
-class MockAPIClient: APIClient {
-    var mockResult: Result<Any, Error>?
-    var lastRouter: APIRouter?
+class MockUserDetailUseCase: UserDetailUseCase {
+    var mockResult: Result<GithubUserDetail, Error>?
+    var lastUsername: String?
     var delay: UInt64 = 0
     
-    func request<T>(router: APIRouter, type: T.Type) async throws -> T where T : Decodable {
-        lastRouter = router
+    func fetchUserDetail(username: String) async throws -> GithubUserDetail {
+        lastUsername = username
         
         if delay > 0 {
             try? await Task.sleep(nanoseconds: delay)
@@ -25,12 +25,8 @@ class MockAPIClient: APIClient {
         }
         
         switch mockResult {
-        case .success(let value):
-            if let result = value as? T {
-                return result
-            } else {
-                throw APIError(message: "Mock result type mismatch")
-            }
+        case .success(let user):
+            return user
         case .failure(let error):
             throw error
         }
