@@ -51,8 +51,8 @@ struct GitHubUserDTO: Codable {
     }
 }
 
-extension GitHubUserDTO {
-    func toEntity() -> GitHubUser {
+extension GitHubUserDTO: DomainConvertible {
+    func toDomain() -> GitHubUser {
         return GitHubUser(login: login?.value,
                           id: id?.value ?? -1,
                           nodeId: nodeId?.value,

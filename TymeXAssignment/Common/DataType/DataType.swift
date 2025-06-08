@@ -12,13 +12,21 @@ public enum DataType<T: Codable>: Codable {
     case null
     
     public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        guard !container.decodeNil() else {
+        do {
+            let container = try decoder.singleValueContainer()
+            guard !container.decodeNil() else {
+                self = .null
+                return
+            }
+            do {
+                let value = try container.decode(T.self)
+                self = .value(value)
+            } catch {
+                self = .null
+            }
+        } catch {
             self = .null
-            return
         }
-        let value = try container.decode(T.self)
-        self = .value(value)
     }
     
     public init(_ value: T?) {
