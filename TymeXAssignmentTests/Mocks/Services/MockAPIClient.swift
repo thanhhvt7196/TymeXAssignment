@@ -1,28 +1,33 @@
+//
+//  MockAPIClient.swift
+//  TymeXAssignment
+//
+//  Created by thanh tien on 8/6/25.
+//
+
 import Foundation
 @testable import TymeXAssignment
 
 class MockAPIClient: APIClient {
     var mockResult: Result<Any, Error>?
-    var delay: UInt64 = 0
+    var lastRouter: APIRouter?
     
-    func request<T: Codable>(router: APIRouter, type: T.Type) async throws -> T {
-        if delay > 0 {
-            try await Task.sleep(nanoseconds: delay)
-        }
+    func request<T>(router: APIRouter, type: T.Type) async throws -> T where T : Decodable {
+        lastRouter = router
         
         guard let mockResult = mockResult else {
             throw APIError(message: "No mock result set")
         }
         
         switch mockResult {
-        case .success(let data):
-            if let result = data as? T {
+        case .success(let value):
+            if let result = value as? T {
                 return result
             } else {
-                throw APIError(message: "Mock data type mismatch")
+                throw APIError(message: "Mock result type mismatch")
             }
         case .failure(let error):
             throw error
         }
     }
-} 
+}

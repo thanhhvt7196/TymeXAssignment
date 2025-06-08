@@ -19,10 +19,6 @@ struct UserListUsecaseImpl: UserListUsecase {
         return try await service.fetchUsers(perPage: perPage, since: since)
     }
     
-    func fetchUserDetail(username: String) async throws -> GithubUserDetail {
-        return try await service.fetchUserDetail(username: username)
-    }
-    
     func getAllUsers() -> [GitHubUser] {
         return store.getAllUsers()
     }

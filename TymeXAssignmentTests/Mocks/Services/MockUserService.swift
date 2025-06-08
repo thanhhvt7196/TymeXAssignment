@@ -2,41 +2,17 @@ import Foundation
 @testable import TymeXAssignment
 
 class MockUserService: UserService {
-    var mockUsersResult: Result<[GitHubUser], Error>?
-    var mockUserDetailResult: Result<GithubUserDetail, Error>?
-    var delay: UInt64 = 0
+    private let apiClient: MockAPIClient
+    
+    init(apiClient: MockAPIClient) {
+        self.apiClient = apiClient
+    }
     
     func fetchUsers(perPage: Int, since: Int) async throws -> [GitHubUser] {
-        if delay > 0 {
-            try await Task.sleep(nanoseconds: delay)
-        }
-        
-        guard let result = mockUsersResult else {
-            throw APIError(message: "No mock result set")
-        }
-        
-        switch result {
-        case .success(let users):
-            return users
-        case .failure(let error):
-            throw error
-        }
+        return try await apiClient.request(router: .getGithubUsersList(itemPerPage: perPage, since: since), type: [GitHubUserDTO].self).map { $0.toDomain() }
     }
     
     func fetchUserDetail(username: String) async throws -> GithubUserDetail {
-        if delay > 0 {
-            try await Task.sleep(nanoseconds: delay)
-        }
-        
-        guard let result = mockUserDetailResult else {
-            throw APIError(message: "No mock result set")
-        }
-        
-        switch result {
-        case .success(let detail):
-            return detail
-        case .failure(let error):
-            throw error
-        }
+        return try await apiClient.request(router: .getUserDetails(username: username), type: GithubUserDetailDTO.self).toDomain()
     }
-} 
+}

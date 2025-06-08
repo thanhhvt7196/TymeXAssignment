@@ -1,7 +1,6 @@
 import XCTest
 @testable import TymeXAssignment
 
-@MainActor
 final class UserServiceTests: XCTestCase {
     var mockAPIClient: MockAPIClient!
     var userService: UserServiceImpl!
@@ -18,122 +17,78 @@ final class UserServiceTests: XCTestCase {
         super.tearDown()
     }
     
-    func testFetchUsersSuccess() async throws {
-        let mockUsers = [
-            GitHubUser(
-                login: "user1",
-                id: 1,
-                nodeId: nil,
-                avatarUrl: "https://example.com/1.jpg",
-                gravatarId: nil,
-                url: nil,
-                htmlUrl: "https://github.com/user1",
-                followersUrl: nil,
-                followingUrl: nil,
-                gistsUrl: nil,
-                starredUrl: nil,
-                subscriptionsUrl: nil,
-                organizationsUrl: nil,
-                reposUrl: nil,
-                eventsUrl: nil,
-                receivedEventsUrl: nil,
-                type: "User",
-                userViewType: nil,
-                siteAdmin: false
-            ),
-            GitHubUser(
-                login: "user2",
-                id: 2,
-                nodeId: nil,
-                avatarUrl: "https://example.com/2.jpg",
-                gravatarId: nil,
-                url: nil,
-                htmlUrl: "https://github.com/user2",
-                followersUrl: nil,
-                followingUrl: nil,
-                gistsUrl: nil,
-                starredUrl: nil,
-                subscriptionsUrl: nil,
-                organizationsUrl: nil,
-                reposUrl: nil,
-                eventsUrl: nil,
-                receivedEventsUrl: nil,
-                type: "User",
-                userViewType: nil,
-                siteAdmin: false
-            )
-        ]
-        
+    func testFetchUsers_WhenAPISucceeds_ShouldReturnUsers() async throws {
+        let mockUsers = GitHubUserDTO.mockList()
         mockAPIClient.mockResult = .success(mockUsers)
         
         let users = try await userService.fetchUsers(perPage: 20, since: 0)
         
-        XCTAssertEqual(users.count, 2)
-        XCTAssertEqual(users[0].id, 1)
-        XCTAssertEqual(users[0].login, "user1")
-        XCTAssertEqual(users[1].id, 2)
-        XCTAssertEqual(users[1].login, "user2")
+        XCTAssertEqual(users.count, mockUsers.count)
+        XCTAssertEqual(users.first?.id, 1)
+        XCTAssertEqual(users.first?.login, "mojombo")
     }
     
-    func testFetchUsersError() async {
-        let error = APIError(message: "Network error")
+    func testFetchUsers_WhenAPIFails_ShouldThrowError() async {
+        let error = APIError(message: "User list API error")
         mockAPIClient.mockResult = .failure(error)
         
         do {
-            _ = try await userService.fetchUsers(perPage: 20, since: 0)
-            XCTFail("Expected to throw an error")
+            try await userService.fetchUsers(perPage: 20, since: 0)
+            XCTFail("Expected error to be thrown")
         } catch let thrownError as APIError {
-            XCTAssertEqual(thrownError.message, "Network error")
+            XCTAssertEqual(thrownError.message, "User list API error")
         } catch {
             XCTFail("Unexpected error type: \(error)")
         }
     }
     
-    func testFetchUserDetailSuccess() async throws {
-        let mockUserDetail = GithubUserDetail(
-            id: 1,
-            login: "octocat",
-            nodeId: "MDQ6VXNlcjE=",
-            avatarUrl: "https://github.com/images/error/octocat_happy.gif",
-            gravatarId: nil,
-            url: nil,
-            htmlUrl: "https://github.com/octocat",
-            followersUrl: nil,
-            followingUrl: nil,
-            gistsUrl: nil,
-            starredUrl: nil,
-            subscriptionsUrl: nil,
-            organizationsUrl: nil,
-            reposUrl: nil,
-            eventsUrl: nil,
-            receivedEventsUrl: nil,
-            type: "User",
-            userViewType: nil,
-            siteAdmin: false,
-            name: "monalisa octocat",
-            company: "GitHub",
-            blog: "https://github.com/blog",
-            location: "San Francisco",
-            email: "octocat@github.com",
-            hireable: false,
-            bio: "There once was...",
-            twitterUsername: "monatheoctocat",
-            publicRepos: 2,
-            publicGists: 1,
-            followers: 20,
-            following: 0,
-            createdAt: "2008-01-14T04:33:35Z",
-            updatedAt: "2008-01-14T04:33:35Z"
-        )
+    func testFetchUsers_ShouldUseCorrectRouter() async throws {
+        mockAPIClient.mockResult = .success(GitHubUserDTO.mockList())
         
+        try await userService.fetchUsers(perPage: 20, since: 20)
+        
+        if case .getGithubUsersList(let perPage, let since) = mockAPIClient.lastRouter {
+            XCTAssertEqual(perPage, 20)
+            XCTAssertEqual(since, 20)
+        } else {
+            XCTFail("Wrong router called")
+        }
+    }
+    
+    func testFetchUserDetail_WhenAPISucceeds_ShouldReturnUserDetail() async throws {
+        let mockUserDetail = GithubUserDetailDTO.mock()
         mockAPIClient.mockResult = .success(mockUserDetail)
         
-        let userDetail = try await userService.fetchUserDetail(username: "octocat")
+        let userDetail = try await userService.fetchUserDetail(username: "mojombo")
         
         XCTAssertEqual(userDetail.id, 1)
-        XCTAssertEqual(userDetail.login, "octocat")
-        XCTAssertEqual(userDetail.name, "monalisa octocat")
-        XCTAssertEqual(userDetail.company, "GitHub")
-        XCTAssertEqual(userDetail.blog, "https://github.com/blog")
+        XCTAssertEqual(userDetail.login, "mojombo")
+        XCTAssertEqual(userDetail.name, "Tom Preston-Werner")
+    }
+    
+    func testFetchUserDetail_WhenAPIFails_ShouldThrowError() async {
+        let error = APIError(message: "User not found")
+        mockAPIClient.mockResult = .failure(error)
+        
+        do {
+            try await userService.fetchUserDetail(username: "fake username")
+            XCTFail("Expected error to be thrown")
+        } catch let thrownError as APIError {
+            XCTAssertEqual(thrownError.message, "User not found")
+        } catch {
+            XCTFail("Unexpected error type: \(error)")
+        }
+    }
+    
+    func testFetchUserDetail_ShouldUseCorrectRouter() async throws {
+        mockAPIClient.mockResult = .success(GithubUserDetailDTO.mock())
+        
+        try await userService.fetchUserDetail(username: "mojombo")
+        
+        if case .getUserDetails(let username) = mockAPIClient.lastRouter {
+            XCTAssertEqual(username, "mojombo")
+        } else {
+            XCTFail("Wrong router called")
+        }
     }
 } 

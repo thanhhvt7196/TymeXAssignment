@@ -17,7 +17,6 @@ struct UserStoreImpl<C: Storable>: UserStore where C.Model == GithubUserSwiftDat
     
     func getAllUsers() -> [GitHubUser] {
         let cacheData = collection.objects(nil, sort: [SortDescriptor(\.id)]) ?? []
-        
         return cacheData.map { $0.toDomain() }
     }
     
