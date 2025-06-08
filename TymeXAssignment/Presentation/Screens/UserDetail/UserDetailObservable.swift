@@ -25,7 +25,7 @@ final class UserDetailObservable {
         }
     }
     
-    private func getUserDetail() async {
+    internal func getUserDetail() async {
         defer {
             isLoading = false
         }
