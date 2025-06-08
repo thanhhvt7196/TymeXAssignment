@@ -19,15 +19,15 @@ struct UserListUsecaseImpl: UserListUsecase {
         return try await service.fetchUsers(perPage: perPage, since: since)
     }
     
-    func getAllUsers() -> [GitHubUser] {
+    func getAllUsersFromCache() -> [GitHubUser] {
         return store.getAllUsers()
     }
     
-    func clean() {
+    func cleanCache() {
         store.clean()
     }
     
-    func add(users: [GitHubUser]) {
+    func saveCache(users: [GitHubUser]) {
         store.add(users: users)
     }
 }

@@ -22,15 +22,15 @@ final class MockUserListUseCase: UserListUsecase {
         return try await userService.fetchUsers(perPage: perPage, since: since)
     }
     
-    func getAllUsers() -> [GitHubUser] {
+    func getAllUsersFromCache() -> [GitHubUser] {
         return userStore.getAllUsers()
     }
     
-    func clean() {
+    func cleanCache() {
         return userStore.clean()
     }
     
-    func add(users: [GitHubUser]) {
+    func saveCache(users: [GitHubUser]) {
         return userStore.add(users: users)
     }
 }

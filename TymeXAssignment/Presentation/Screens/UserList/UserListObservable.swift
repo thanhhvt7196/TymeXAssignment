@@ -23,12 +23,12 @@ final class UserListObservable {
     }
     
     internal func loadCache() {
-        userList = usecase.getAllUsers()
+        userList = usecase.getAllUsersFromCache()
     }
     
     internal func saveCache(userList: [GitHubUser]) {
-        usecase.clean()
-        usecase.add(users: userList)
+        usecase.cleanCache()
+        usecase.saveCache(users: userList)
     }
     
     func loadFirstPage(needLoading: Bool) async {

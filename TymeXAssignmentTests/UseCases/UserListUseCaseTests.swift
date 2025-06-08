@@ -38,7 +38,7 @@ final class UserListUseCaseTests: XCTestCase {
         let mockUsers = GitHubUser.mockList()
         mockUserStore.add(users: mockUsers)
         
-        let users = useCase.getAllUsers()
+        let users = useCase.getAllUsersFromCache()
         
         XCTAssertEqual(users.count, mockUsers.count)
         XCTAssertEqual(users.first?.id, mockUsers.first?.id)
@@ -73,8 +73,8 @@ final class UserListUseCaseTests: XCTestCase {
     }
     
     func testClean_ShouldClearStore() {
-        useCase.clean()
+        useCase.cleanCache()
         
-        XCTAssertTrue(useCase.getAllUsers().isEmpty)
+        XCTAssertTrue(useCase.getAllUsersFromCache().isEmpty)
     }
 } 
