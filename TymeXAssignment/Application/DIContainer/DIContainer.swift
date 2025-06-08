@@ -7,6 +7,7 @@
 
 import Swinject
 
+@MainActor
 protocol DIContainer {
     static var container: Container { get }
     static func send<T>(_ value: T, withKey key: String)

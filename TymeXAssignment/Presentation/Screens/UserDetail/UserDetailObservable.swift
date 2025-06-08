@@ -14,11 +14,11 @@ final class UserDetailObservable {
     var isLoading = false
     var errorMessage: String?
 
-    private let service: UserService
-    private let username: String
+    @ObservationIgnored private let usecase: UserDetailUseCase
+    @ObservationIgnored private let username: String
     
-    init(service: UserService, username: String) {
-        self.service = service
+    init(usecase: UserDetailUseCase, username: String) {
+        self.usecase = usecase
         self.username = username
         Task {
             await getUserDetail()
@@ -31,7 +31,7 @@ final class UserDetailObservable {
         }
         isLoading = true
         do {
-            let result = try await service.fetchUserDetail(username: username)
+            let result = try await usecase.fetchUserDetail(username: username)
             userDetail = result
         } catch {
             errorMessage = (error as? APIError)?.message ?? error.localizedDescription

@@ -10,14 +10,12 @@ final class UserListObservable {
     var userList = [GitHubUser]()
     var errorMessage: String?
     
-    @ObservationIgnored private let service: UserService
+    @ObservationIgnored private let usecase: UserListUsecase
     @ObservationIgnored private var page = 0
     @ObservationIgnored private let itemPerPage = 20
-    @ObservationIgnored private let store: GithubUserStore
         
-    init (service: UserService, modelContainer: ModelContainer) {
-        self.service = service
-        self.store = GithubUserStoreImpl(collection: SwiftDataStore<GithubUserSwiftData>(modelContext: modelContainer.mainContext))
+    init(usecase: UserListUsecase) {
+        self.usecase = usecase
         Task {
             loadCache()
             await loadFirstPage(needLoading: userList.isEmpty)
@@ -25,12 +23,12 @@ final class UserListObservable {
     }
     
     private func loadCache() {
-        userList = store.getAllUsers()
+        userList = usecase.getAllUsers()
     }
     
     private func saveCache(userList: [GitHubUser]) {
-        store.clean()
-        store.add(users: userList)
+        usecase.clean()
+        usecase.add(users: userList)
     }
     
     func loadFirstPage(needLoading: Bool) async {
@@ -40,7 +38,7 @@ final class UserListObservable {
         page = 0
         isLoading = true
         do {
-            let result = try await service.fetchUsers(perPage: itemPerPage, since: page * itemPerPage)
+            let result = try await usecase.fetchUsers(perPage: itemPerPage, since: page * itemPerPage)
             userList = result
             page += 1
             saveCache(userList: result)
@@ -59,7 +57,7 @@ final class UserListObservable {
         isLoadmore = true
         
         do {
-            let newUsers = try await service.fetchUsers(perPage: itemPerPage, since: page * itemPerPage)
+            let newUsers = try await usecase.fetchUsers(perPage: itemPerPage, since: page * itemPerPage)
             if !newUsers.isEmpty {
                 for user in newUsers {
                     // github API return some duplicated users, so we need to check if they already existed

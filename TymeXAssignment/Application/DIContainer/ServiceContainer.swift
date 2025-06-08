@@ -18,14 +18,12 @@ struct ServiceContainer: DIContainer {
         .inObjectScope(.container)
         
         container.register(UserService.self) { _ in
-            UserServiceImpl()
+            guard let apiClient = container.resolve(APIClient.self) else {
+                fatalError("Failed to resolve APIClient")
+            }
+            return UserServiceImpl(apiClient: apiClient)
         }
         .inObjectScope(.transient)
-        
-        container.register(ModelContainer.self) { _ in
-            AppDelegate.sharedModelContainer
-        }
-        .inObjectScope(.container)
         
         return container
     }

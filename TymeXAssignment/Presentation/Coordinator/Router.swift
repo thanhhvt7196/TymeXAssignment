@@ -9,7 +9,6 @@ import SwiftUI
 import Observation
 
 enum RouterPath: Hashable {
-    case userList
     case userDetail(GitHubUser)
 }
 

@@ -10,15 +10,15 @@ import Foundation
 struct UserServiceImpl: UserService {
     private let apiClient: APIClient
     
-    init(apiClient: APIClient = ServiceContainer.get()) {
+    init(apiClient: APIClient) {
         self.apiClient = apiClient
     }
     
     func fetchUsers(perPage: Int, since: Int) async throws -> [GitHubUser] {
-        return try await apiClient.request(router: .getGithubUsersList(itemPerPage: perPage, since: since), type: [GitHubUser].self)
+        return try await apiClient.request(router: .getGithubUsersList(itemPerPage: perPage, since: since), type: [GitHubUserDTO].self).map { $0.toEntity() }
     }
     
     func fetchUserDetail(username: String) async throws -> GithubUserDetail {
-        return try await apiClient.request(router: .getUserDetails(username: username), type: GithubUserDetail.self)
+        return try await apiClient.request(router: .getUserDetails(username: username), type: GithubUserDetailDTO.self).toEntity()
     }
 }

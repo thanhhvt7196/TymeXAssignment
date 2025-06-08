@@ -4,8 +4,8 @@ struct UserDetailView: View {
     @Environment(Router.self) private var router: Router
     @State private var userDetailObservable: UserDetailObservable
     
-    init(username: String) {
-        _userDetailObservable = State(wrappedValue: UserDetailObservable(service: ServiceContainer.get(), username: username))
+    init(username: String, usecase: UserDetailUseCase) {
+        _userDetailObservable = State(wrappedValue: UserDetailObservable(usecase: usecase, username: username))
     }
     
     var body: some View {
@@ -141,5 +141,5 @@ struct UserDetailView: View {
 }
 
 #Preview {
-    UserDetailView(username: "wycats")
+    UserFlowBuilder.buildUserDetail(username: "mojombo")
 }

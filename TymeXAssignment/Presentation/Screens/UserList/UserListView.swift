@@ -12,8 +12,8 @@ struct UserListView: View {
     @Environment(Router.self) private var router: Router
     @State private var userListObservable: UserListObservable
     
-    init(service: UserService = ServiceContainer.get(), modelContainer: ModelContainer = ServiceContainer.get()) {
-        _userListObservable = State(wrappedValue: UserListObservable(service: service, modelContainer: modelContainer))
+    init(usecase: UserListUsecase) {
+        _userListObservable = State(wrappedValue: UserListObservable(usecase: usecase))
     }
     
     var body: some View {
@@ -33,9 +33,7 @@ struct UserListView: View {
                 .navigationDestination(for: RouterPath.self) { path in
                     switch path {
                     case .userDetail(let user):
-                        UserDetailView(username: user.login ?? "")
-                    case .userList:
-                        UserListView()
+                        UserFlowBuilder.buildUserDetail(username: user.login ?? "")
                     }
                 }
                 .showErrorAlert(
@@ -118,5 +116,5 @@ struct UserListView: View {
 }
 
 #Preview {
-    UserListView()
+    UserFlowBuilder.buildUserList()
 }

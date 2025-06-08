@@ -1,5 +1,5 @@
 //
-//  GithubUserStoreImpl.swift
+//  UserStoreImpl.swift
 //  TymeXAssignment
 //
 //  Created by thanh tien on 4/6/25.
@@ -8,7 +8,7 @@
 import Foundation
 import SwiftData
 
-struct GithubUserStoreImpl<C: Storable>: GithubUserStore where C.Model == GithubUserSwiftData {
+struct UserStoreImpl<C: Storable>: UserStore where C.Model == GithubUserSwiftData {
     private let collection: C
     
     init(collection: C) {

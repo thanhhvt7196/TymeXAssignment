@@ -14,7 +14,7 @@ struct TymeXAssignmentApp: App {
 
     var body: some Scene {
         WindowGroup {
-            UserListView()
+            UserFlowBuilder.buildUserList()
                 .preferredColorScheme(.light)
                 .environment(router)
         }
