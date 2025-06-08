@@ -11,20 +11,7 @@ import Pulse
 import PulseUI
 import PulseProxy
 
-class AppDelegate: UIResponder, UIApplicationDelegate {
-    static var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            GithubUserSwiftData.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-        
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-    
+class AppDelegate: UIResponder, UIApplicationDelegate {    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         setupPulse()
         return true
