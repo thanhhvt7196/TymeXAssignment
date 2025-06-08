@@ -11,12 +11,6 @@ We use **[Xcode 16.4](https://developer.apple.com/xcode/)** as our primary devel
 - **[SwiftUI](https://developer.apple.com/xcode/swiftui/)**: Apple's modern declarative framework for building user interfaces across all Apple platforms
 - **[SwiftData](https://developer.apple.com/documentation/swiftdata)**: The next generation of data persistence framework that seamlessly integrates with SwiftUI
 
-Useful links:
-- [Swift](https://developer.apple.com/swift/)
-- [Swift.org - Welcome to Swift](https://swift.org/)
-- [SwiftUI Documentation](https://developer.apple.com/documentation/swiftui)
-- [SwiftData Documentation](https://developer.apple.com/documentation/swiftdata)
-
 ### 1.2 Modern iOS Development
 
 Our development approach focuses on simplicity and efficiency using SwiftUI:
