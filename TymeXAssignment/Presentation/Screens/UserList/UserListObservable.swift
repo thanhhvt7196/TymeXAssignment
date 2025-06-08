@@ -22,11 +22,11 @@ final class UserListObservable {
         }
     }
     
-    private func loadCache() {
+    internal func loadCache() {
         userList = usecase.getAllUsers()
     }
     
-    private func saveCache(userList: [GitHubUser]) {
+    internal func saveCache(userList: [GitHubUser]) {
         usecase.clean()
         usecase.add(users: userList)
     }

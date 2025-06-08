@@ -216,6 +216,54 @@ extension GitHubUserDTO {
         )
     }
     
+    static func mock2() -> GitHubUserDTO {
+        return GitHubUserDTO(
+            login: .value("defunkt"),
+            id: .value(2),
+            nodeId: .value("MDQ6VXNlcjI="),
+            avatarUrl: .value("https://avatars.githubusercontent.com/u/2?v=4"),
+            gravatarId: nil,
+            url: .value("https://api.github.com/users/defunkt"),
+            htmlUrl: .value("https://github.com/defunkt"),
+            followersUrl: .value("https://api.github.com/users/defunkt/followers"),
+            followingUrl: .value("https://api.github.com/users/defunkt/following{/other_user}"),
+            gistsUrl: .value("https://api.github.com/users/defunkt/gists{/gist_id}"),
+            starredUrl: .value("https://api.github.com/users/defunkt/starred{/owner}{/repo}"),
+            subscriptionsUrl: .value("https://api.github.com/users/defunkt/subscriptions"),
+            organizationsUrl: .value("https://api.github.com/users/defunkt/orgs"),
+            reposUrl: .value("https://api.github.com/users/defunkt/repos"),
+            eventsUrl: .value("https://api.github.com/users/defunkt/events{/privacy}"),
+            receivedEventsUrl: .value("https://api.github.com/users/defunkt/received_events"),
+            type: .value("User"),
+            userViewType: .value("public"),
+            siteAdmin: .value(false)
+        )
+    }
+    
+    static func mock3() -> GitHubUserDTO {
+        return GitHubUserDTO(
+            login: .value("pjhyett"),
+            id: .value(3),
+            nodeId: .value("MDQ6VXNlcjM="),
+            avatarUrl: .value("https://avatars.githubusercontent.com/u/3?v=4"),
+            gravatarId: nil,
+            url: .value("https://api.github.com/users/pjhyett"),
+            htmlUrl: .value("https://github.com/pjhyett"),
+            followersUrl: .value("https://api.github.com/users/pjhyett/followers"),
+            followingUrl: .value("https://api.github.com/users/pjhyett/following{/other_user}"),
+            gistsUrl: .value("https://api.github.com/users/pjhyett/gists{/gist_id}"),
+            starredUrl: .value("https://api.github.com/users/pjhyett/starred{/owner}{/repo}"),
+            subscriptionsUrl: .value("https://api.github.com/users/pjhyett/subscriptions"),
+            organizationsUrl: .value("https://api.github.com/users/pjhyett/orgs"),
+            reposUrl: .value("https://api.github.com/users/pjhyett/repos"),
+            eventsUrl: .value("https://api.github.com/users/pjhyett/events{/privacy}"),
+            receivedEventsUrl: .value("https://api.github.com/users/pjhyett/received_events"),
+            type: .value("User"),
+            userViewType: .value("public"),
+            siteAdmin: .value(false)
+        )
+    }
+    
     static func mockList() -> [GitHubUserDTO] {
         return [
             GitHubUserDTO(
