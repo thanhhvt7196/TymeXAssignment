@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GithubUserDetail: Codable {
+struct GithubUserDetail {
     let id: Int
     
     let login: String?
