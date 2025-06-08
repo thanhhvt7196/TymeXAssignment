@@ -16,13 +16,14 @@ final class UserListUseCaseTests: XCTestCase {
     }
     
     override func tearDown() {
+        mockAPIClient = nil
         mockUserService = nil
         mockUserStore = nil
         useCase = nil
         super.tearDown()
     }
     
-    func testFetchUsers_ShouldReturnUsersFromService() async throws {
+    func testFetchUsers_ShouldReturnUsersFromServer() async throws {
         let mockUsers = GitHubUserDTO.mockList()
         mockAPIClient.mockResult = .success(mockUsers)
         
