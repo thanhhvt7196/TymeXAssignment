@@ -25,19 +25,16 @@ final class UserStoreTests: XCTestCase {
     }
     
     func testAddUsers_ShouldSaveToStore() async throws {
-        let users = [
-            GitHubUser(login: "user1", id: 1, nodeId: nil, avatarUrl: nil, gravatarId: nil, url: nil, htmlUrl: nil, followersUrl: nil, followingUrl: nil, gistsUrl: nil, starredUrl: nil, subscriptionsUrl: nil, organizationsUrl: nil, reposUrl: nil, eventsUrl: nil, receivedEventsUrl: nil, type: nil, userViewType: nil, siteAdmin: nil),
-            GitHubUser(login: "user2", id: 2, nodeId: nil, avatarUrl: nil, gravatarId: nil, url: nil, htmlUrl: nil, followersUrl: nil, followingUrl: nil, gistsUrl: nil, starredUrl: nil, subscriptionsUrl: nil, organizationsUrl: nil, reposUrl: nil, eventsUrl: nil, receivedEventsUrl: nil, type: nil, userViewType: nil, siteAdmin: nil)
-        ]
+        let users = GitHubUser.mockList()
         
         userStore.add(users: users)
         
         let storedUsers = userStore.getAllUsers()
-        XCTAssertEqual(storedUsers.count, 2)
-        XCTAssertEqual(storedUsers[0].login, "user1")
-        XCTAssertEqual(storedUsers[0].id, 1)
-        XCTAssertEqual(storedUsers[1].login, "user2")
-        XCTAssertEqual(storedUsers[1].id, 2)
+        XCTAssertEqual(storedUsers.count, users.count)
+        XCTAssertEqual(storedUsers[0].login, GitHubUser.mock().login)
+        XCTAssertEqual(storedUsers[0].id, GitHubUser.mock().id)
+        XCTAssertEqual(storedUsers[1].login, GitHubUser.mock2().login)
+        XCTAssertEqual(storedUsers[1].id, GitHubUser.mock2().id)
     }
     
     func testGetAllUsers_WhenEmpty_ShouldReturnEmptyArray() async throws {
@@ -48,80 +45,58 @@ final class UserStoreTests: XCTestCase {
     
     func testGetAllUsers_ShouldReturnSortedById() async throws {
         let users = [
-            GitHubUser(login: "user3", id: 3, nodeId: nil, avatarUrl: nil, gravatarId: nil, url: nil, htmlUrl: nil, followersUrl: nil, followingUrl: nil, gistsUrl: nil, starredUrl: nil, subscriptionsUrl: nil, organizationsUrl: nil, reposUrl: nil, eventsUrl: nil, receivedEventsUrl: nil, type: nil, userViewType: nil, siteAdmin: nil),
-            GitHubUser(login: "user1", id: 1, nodeId: nil, avatarUrl: nil, gravatarId: nil, url: nil, htmlUrl: nil, followersUrl: nil, followingUrl: nil, gistsUrl: nil, starredUrl: nil, subscriptionsUrl: nil, organizationsUrl: nil, reposUrl: nil, eventsUrl: nil, receivedEventsUrl: nil, type: nil, userViewType: nil, siteAdmin: nil),
-            GitHubUser(login: "user2", id: 2, nodeId: nil, avatarUrl: nil, gravatarId: nil, url: nil, htmlUrl: nil, followersUrl: nil, followingUrl: nil, gistsUrl: nil, starredUrl: nil, subscriptionsUrl: nil, organizationsUrl: nil, reposUrl: nil, eventsUrl: nil, receivedEventsUrl: nil, type: nil, userViewType: nil, siteAdmin: nil)
+            GitHubUser.mock3(),
+            GitHubUser.mock(),
+            GitHubUser.mock2()
         ]
         userStore.add(users: users)
         
         let storedUsers = userStore.getAllUsers()
         
-        XCTAssertEqual(storedUsers.count, 3)
-        XCTAssertEqual(storedUsers[0].id, 1)
-        XCTAssertEqual(storedUsers[0].login, "user1")
-        XCTAssertEqual(storedUsers[1].id, 2)
-        XCTAssertEqual(storedUsers[1].login, "user2")
-        XCTAssertEqual(storedUsers[2].id, 3)
-        XCTAssertEqual(storedUsers[2].login, "user3")
+        XCTAssertEqual(storedUsers.count, users.count)
+        XCTAssertEqual(storedUsers[0].id, GitHubUser.mock().id)
+        XCTAssertEqual(storedUsers[0].login, GitHubUser.mock().login)
+        XCTAssertEqual(storedUsers[1].id, GitHubUser.mock2().id)
+        XCTAssertEqual(storedUsers[1].login, GitHubUser.mock2().login)
+        XCTAssertEqual(storedUsers[2].id, GitHubUser.mock3().id)
+        XCTAssertEqual(storedUsers[2].login, GitHubUser.mock3().login)
     }
     
     func testClean_ShouldRemoveAllUsers() async throws {
-        let users = [
-            GitHubUser(login: "user1", id: 1, nodeId: nil, avatarUrl: nil, gravatarId: nil, url: nil, htmlUrl: nil, followersUrl: nil, followingUrl: nil, gistsUrl: nil, starredUrl: nil, subscriptionsUrl: nil, organizationsUrl: nil, reposUrl: nil, eventsUrl: nil, receivedEventsUrl: nil, type: nil, userViewType: nil, siteAdmin: nil),
-            GitHubUser(login: "user2", id: 2, nodeId: nil, avatarUrl: nil, gravatarId: nil, url: nil, htmlUrl: nil, followersUrl: nil, followingUrl: nil, gistsUrl: nil, starredUrl: nil, subscriptionsUrl: nil, organizationsUrl: nil, reposUrl: nil, eventsUrl: nil, receivedEventsUrl: nil, type: nil, userViewType: nil, siteAdmin: nil)
-        ]
+        let users = GitHubUser.mockList()
+
         userStore.add(users: users)
-        XCTAssertEqual(userStore.getAllUsers().count, 2)
+        XCTAssertEqual(userStore.getAllUsers().count, users.count)
         
         userStore.clean()
         XCTAssertTrue(userStore.getAllUsers().isEmpty)
     }
     
     func testAddUsers_WithAllFields_ShouldPreserveData() async throws {
-        let user = GitHubUser(
-            login: "mojombo",
-            id: 1,
-            nodeId: "MDQ6VXNlcjE=",
-            avatarUrl: "https://avatars.githubusercontent.com/u/1?v=4",
-            gravatarId: nil,
-            url: "https://api.github.com/users/mojombo",
-            htmlUrl: "https://github.com/mojombo",
-            followersUrl: "https://api.github.com/users/mojombo/followers",
-            followingUrl: "https://api.github.com/users/mojombo/following{/other_user}",
-            gistsUrl: "https://api.github.com/users/mojombo/gists{/gist_id}",
-            starredUrl: "https://api.github.com/users/mojombo/starred{/owner}{/repo}",
-            subscriptionsUrl: "https://api.github.com/users/mojombo/subscriptions",
-            organizationsUrl: "https://api.github.com/users/mojombo/orgs",
-            reposUrl: "https://api.github.com/users/mojombo/repos",
-            eventsUrl: "https://api.github.com/users/mojombo/events{/privacy}",
-            receivedEventsUrl: "https://api.github.com/users/mojombo/received_events",
-            type: "User",
-            userViewType: "public",
-            siteAdmin: true
-        )
+        let user = GitHubUser.mock()
         
         userStore.add(users: [user])
         
         let storedUser = userStore.getAllUsers().first
         XCTAssertNotNil(storedUser)
-        XCTAssertEqual(storedUser?.login, "mojombo")
-        XCTAssertEqual(storedUser?.id, 1)
-        XCTAssertEqual(storedUser?.nodeId, "MDQ6VXNlcjE=")
-        XCTAssertEqual(storedUser?.avatarUrl, "https://avatars.githubusercontent.com/u/1?v=4")
-        XCTAssertEqual(storedUser?.gravatarId, nil)
-        XCTAssertEqual(storedUser?.url, "https://api.github.com/users/mojombo")
-        XCTAssertEqual(storedUser?.htmlUrl, "https://github.com/mojombo")
-        XCTAssertEqual(storedUser?.followersUrl, "https://api.github.com/users/mojombo/followers")
-        XCTAssertEqual(storedUser?.followingUrl, "https://api.github.com/users/mojombo/following{/other_user}")
-        XCTAssertEqual(storedUser?.gistsUrl, "https://api.github.com/users/mojombo/gists{/gist_id}")
-        XCTAssertEqual(storedUser?.starredUrl, "https://api.github.com/users/mojombo/starred{/owner}{/repo}")
-        XCTAssertEqual(storedUser?.subscriptionsUrl, "https://api.github.com/users/mojombo/subscriptions")
-        XCTAssertEqual(storedUser?.organizationsUrl, "https://api.github.com/users/mojombo/orgs")
-        XCTAssertEqual(storedUser?.reposUrl, "https://api.github.com/users/mojombo/repos")
-        XCTAssertEqual(storedUser?.eventsUrl, "https://api.github.com/users/mojombo/events{/privacy}")
-        XCTAssertEqual(storedUser?.receivedEventsUrl, "https://api.github.com/users/mojombo/received_events")
-        XCTAssertEqual(storedUser?.type, "User")
-        XCTAssertEqual(storedUser?.userViewType, "public")
-        XCTAssertEqual(storedUser?.siteAdmin, true)
+        XCTAssertEqual(storedUser?.login, GitHubUser.mock().login)
+        XCTAssertEqual(storedUser?.id, GitHubUser.mock().id)
+        XCTAssertEqual(storedUser?.nodeId, GitHubUser.mock().nodeId)
+        XCTAssertEqual(storedUser?.avatarUrl, GitHubUser.mock().avatarUrl)
+        XCTAssertEqual(storedUser?.gravatarId, GitHubUser.mock().gravatarId)
+        XCTAssertEqual(storedUser?.url, GitHubUser.mock().url)
+        XCTAssertEqual(storedUser?.htmlUrl,GitHubUser.mock().htmlUrl)
+        XCTAssertEqual(storedUser?.followersUrl, GitHubUser.mock().followersUrl)
+        XCTAssertEqual(storedUser?.followingUrl, GitHubUser.mock().followingUrl)
+        XCTAssertEqual(storedUser?.gistsUrl, GitHubUser.mock().gistsUrl)
+        XCTAssertEqual(storedUser?.starredUrl, GitHubUser.mock().starredUrl)
+        XCTAssertEqual(storedUser?.subscriptionsUrl, GitHubUser.mock().subscriptionsUrl)
+        XCTAssertEqual(storedUser?.organizationsUrl, GitHubUser.mock().organizationsUrl)
+        XCTAssertEqual(storedUser?.reposUrl, GitHubUser.mock().reposUrl)
+        XCTAssertEqual(storedUser?.eventsUrl, GitHubUser.mock().eventsUrl)
+        XCTAssertEqual(storedUser?.receivedEventsUrl, GitHubUser.mock().receivedEventsUrl)
+        XCTAssertEqual(storedUser?.type, GitHubUser.mock().type)
+        XCTAssertEqual(storedUser?.userViewType, GitHubUser.mock().userViewType)
+        XCTAssertEqual(storedUser?.siteAdmin, GitHubUser.mock().siteAdmin)
     }
 } 
