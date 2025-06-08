@@ -12,7 +12,7 @@ final class UserListUseCaseTests: XCTestCase {
         mockAPIClient = MockAPIClient()
         mockUserService = MockUserService(apiClient: mockAPIClient)
         mockUserStore = MockUserStore()
-        useCase = MockUserListUseCase(userService: mockUserService, userStore: mockUserStore)
+        useCase = UserListUsecaseImpl(store: mockUserStore, service: mockUserService)
     }
     
     override func tearDown() {
