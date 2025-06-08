@@ -11,14 +11,9 @@ import Foundation
 class MockAPIClient: APIClient {
     var mockResult: Result<Any, Error>?
     var lastRouter: APIRouter?
-    var delay: UInt64 = 0
     
     func request<T>(router: APIRouter, type: T.Type) async throws -> T where T : Decodable {
         lastRouter = router
-        
-        if delay > 0 {
-            try? await Task.sleep(nanoseconds: delay)
-        }
         
         guard let mockResult = mockResult else {
             throw APIError(message: "No mock result set")

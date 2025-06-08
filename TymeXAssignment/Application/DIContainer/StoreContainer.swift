@@ -21,7 +21,7 @@ struct StoreContainer: DIContainer {
             guard let modelContainer = container.resolve(ModelContainer.self) else {
                 fatalError("Failed to resolve ModelContainer")
             }
-            return UserStoreImpl(collection: SwiftDataStore<GithubUserSwiftData>(modelContext: modelContainer.mainContext))
+            return UserStoreImpl(collection: SwiftDataStore<GithubUserSwiftData>(modelContext: ModelContext(modelContainer)))
         }
         .inObjectScope(.container)
         

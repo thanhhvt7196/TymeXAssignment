@@ -7,15 +7,10 @@ class MockUserService: UserService {
     var lastFetchedUsername: String?
     var lastFetchedSince: Int?
     var lastFetchedPerPage: Int?
-    var delay: UInt64 = 0
     
     func fetchUsers(perPage: Int, since: Int) async throws -> [GitHubUser] {
         lastFetchedPerPage = perPage
         lastFetchedSince = since
-        
-        if delay > 0 {
-            try? await Task.sleep(nanoseconds: delay)
-        }
         
         guard let mockResult = mockUserListResult else {
             throw APIError(message: "No mock result set")
@@ -31,10 +26,6 @@ class MockUserService: UserService {
     
     func fetchUserDetail(username: String) async throws -> GithubUserDetail {
         lastFetchedUsername = username
-        
-        if delay > 0 {
-            try? await Task.sleep(nanoseconds: delay)
-        }
         
         guard let mockResult = mockUserDetailResult else {
             throw APIError(message: "No mock result set")
